@@ -1,0 +1,145 @@
+#include<iostream>
+using namespace std;
+
+
+class ShoppingCart {
+	private:
+		int CG_qty;
+		int CU_qty;
+		int CG_PRICE;
+		int CU_PRICE;
+		int total;
+		
+	
+	public:
+		ShoppingCart()
+		{
+			CG_qty = 0;
+			CU_qty = 0;
+			total = 0;
+			CG_PRICE=10;
+			CU_PRICE=15;
+		}
+
+			
+		void AddToCart(int item_choice)
+		{	
+			int qty;
+			cout<<"\nEnter the quantity:";
+			cin>>qty;
+			if (item_choice==1)
+				CG_qty += qty;
+			else if(item_choice==2)
+				CU_qty += qty;
+		}
+
+		void RemoveFromCart(int item_choice)
+		{
+			int qty;
+			cout<<"\nEnter the quantity:";
+			cin>>qty;
+			if(item_choice==1)
+				CG_qty -= qty;
+			else if(item_choice==2)
+				CU_qty -= qty;
+		}
+		
+		bool isCartEmpty()
+		{
+			if (CG_qty == 0 && CU_qty == 0)
+				return true;
+			else
+				return false;
+		}
+
+		int CG_discount()
+		{
+			int disc = (CG_qty/3)*2*CG_PRICE + (CG_qty%3)*CG_PRICE;
+			return disc;
+		}
+
+		int Checkout(int checkout_ch)
+		{	
+			if(!isCartEmpty()){
+				int discount = CG_discount();
+				if(checkout_ch==1 && CG_qty > 2)
+				{	
+					 total = discount + (CU_qty*CU_PRICE);
+					 display(discount);
+				}
+				else if((checkout_ch==1 && CG_qty <=2) || checkout_ch==2)
+				{
+					 total = (CG_qty*CG_PRICE) + (CU_qty*CU_PRICE);
+					display(0);
+				}
+				return total;
+			}
+			else
+			{
+				cout<<"\n\nError. Your cart is empty!!\n";
+				return 0;
+			}
+		}
+
+		void display(int discount)
+		{
+			if(discount!=0)
+			{
+				cout<<"\nThe total price of Colgate is: "<<discount;
+				cout<<"\nThe total price of CloseUp is: "<<CU_qty*CU_PRICE;
+			}
+			else 
+			{
+				cout<<"\nThe total price of Colgate is: "<<CG_qty*CG_PRICE;
+				cout<<"\nThe total price of CloseUp is: "<<CU_qty*CU_PRICE;				
+			}
+		}
+};
+
+int main()
+{
+	ShoppingCart Customer;
+	int ch,item_ch,checkout_ch,total;
+	cout<<"Welcome, customer. Following are the products available in our shop.";
+	cout<<"\n1. Colgate Toothpaste.";
+	cout<<"\n2. CloseUp Toothpaste.";
+	do {
+		cout<<"\nChoose from the following options:";
+		cout<<"\n1. Add an item to cart.";
+		cout<<"\n2. Remove an item from cart.";
+		cout<<"\n3. Checkout.";
+		cout<<"\nEnter your choice:";
+		cin>>ch;
+		switch (ch)
+		{
+			case 1: cout<<"\nWhich item would you like to add?\n1.Colgate.\n2.CloseUp.\nEnter item number: ";
+				cin>>item_ch;
+				Customer.AddToCart(item_ch);
+				break;
+
+			case 2:  cout<<"\nWhich item would you like to remove?\n1.Colgate.\n2.CloseUp.\nEnter item number: ";
+				 cin>>item_ch;
+				 Customer.RemoveFromCart(item_ch);
+				 break;
+
+			case 3: cout<<"\nAre you sure you want to checkout? Press 1 for YES or Press 2 to CONTINUE shopping: ";
+				cin>>checkout_ch;
+				if(checkout_ch==1)
+				{
+					cout<<"\nDo you want to avail Buy 2 get 1 Free offer for Colgate if purchased? Press 1 for YES or 2 for NO: ";
+					cin>>checkout_ch;
+					total = Customer.Checkout(checkout_ch);
+					cout<<"\nThank you for shopping. Your total bill is: "<<total<<"\n \n \n";
+
+				}
+				else if(checkout_ch==2)
+				{
+					cout<<"\nPlease continue shopping.";
+				}
+				break;
+		
+			default: cout<<"\nNot a valid choice. Try Again.\n";
+		}
+	}while(ch >0 && ch<4);
+	
+}
