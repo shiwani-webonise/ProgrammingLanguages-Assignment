@@ -1,0 +1,73 @@
+#include <iostream>
+using namespace std;
+
+/*
+CG/Cg - Colgate
+CU - CloseUp 
+*/
+
+int Buy_one_CG() //Use Case #1
+{
+	return 10; //Price of 1 Colgate = Rs10
+}
+
+int Buy_one_CU() //Use Case #2
+{
+	return 15; //Price of 1 CloseUp = Rs15
+}
+
+int Buy_both() //Use Case #3
+{
+	int qty_CG = 5;
+	int qty_CU = 2;
+	int price_CG = Buy_one_CG();
+	int price_CU = Buy_one_CU();
+	int total = (qty_CG * price_CG) + (qty_CU * price_CU);
+	return total;
+}
+
+int CG_Offer(int qty) //Use Case #4
+{
+	int total = (qty/3)*20 + (qty%3)*10;
+	return total;
+} 
+
+void print_Total(int total)
+{
+	cout<<"The total bill is: "<<total<<".\n";
+}
+
+int main() // Main Function
+{
+	int ch,total;
+	do{
+		cout<<endl;
+		cout<<"Choose 1 from the following options:\n";
+		cout<<"1. Use Case #1 - Buying 1 Colgate toothpaste.\n";
+		cout<<"2. Use Case #2 - Buying 1 CloseUp toothpaste.\n";
+		cout<<"3. Use Case #3 - Buying 5 Colgate and 2 CloseUp toothpastes.\n";
+		cout<<"4. Use Case #4 - Buy 2 get 1 free offer on Colgate.\n";
+		cout<<"5. Use Case #5 - Buy Colgate on offer and buy CloseUp.\n";
+		cout<<"Enter your choice:"; 
+		cin>>ch;
+		switch (ch) {
+			case 1: 
+				total = Buy_one_CG();
+				break;
+			case 2: total = Buy_one_CU();
+				break;
+			case 3: total = Buy_both();
+				break;
+			case 4: total = CG_Offer(3); //3 is the quantity of Colgate
+				break;
+			case 5: total = CgOffer_and_CU(3,2);// 3 - Colgate qty, 2 - CloseUp qty
+				break;
+			default: total=0;
+				break;
+		}
+		cout<<endl;
+		print_Total(total);
+	}while(ch > 0 && ch < 6) ;
+
+	return 0;
+}
